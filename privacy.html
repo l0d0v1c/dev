@@ -61,7 +61,7 @@
         }
 
         .language-switcher span.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #007AFF;
             color: white;
         }
 
@@ -69,10 +69,6 @@
             color: #333;
             margin-bottom: 30px;
             font-size: 2.5em;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
         h2 {
@@ -80,7 +76,7 @@
             margin-top: 30px;
             margin-bottom: 20px;
             font-size: 1.5em;
-            border-bottom: 2px solid #667eea;
+            border-bottom: 2px solid #007AFF;
             padding-bottom: 10px;
         }
 
@@ -105,7 +101,7 @@
         }
 
         .effective-date {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: #007AFF;
             color: white;
             padding: 10px 20px;
             border-radius: 10px;
@@ -115,7 +111,7 @@
 
         .contact-info {
             background: #f8f9fa;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #007AFF;
             padding: 20px;
             margin-top: 30px;
             border-radius: 10px;
@@ -124,10 +120,20 @@
         .back-link {
             display: inline-block;
             margin-top: 30px;
-            color: #667eea;
+            color: #007AFF;
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s ease;
+        }
+
+        .support-link {
+            color: #007AFF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .support-link:hover {
+            text-decoration: underline;
         }
 
         .back-link:hover {
@@ -379,6 +385,12 @@
                     If you have any questions about this Privacy Policy, you can contact us through the app's support system or community forum.
                 </span>
             </p>
+            <p style="margin-top: 15px;">
+                <a href="https://github.com/l0d0v1c/dev/issues" target="_blank" class="support-link">
+                    <span class="lang-fr">Accéder au système d'assistance →</span>
+                    <span class="lang-en">Access support system →</span>
+                </a>
+            </p>
         </div>
 
         <a href="index.html" class="back-link">
@@ -400,17 +412,19 @@
 
             function switchLanguage(lang) {
                 if (lang === 'fr') {
-                    $('.lang-fr').fadeIn(300);
-                    $('.lang-en').fadeOut(300);
+                    $('.lang-fr').show();
+                    $('.lang-en').hide();
                     $('.fr-btn').addClass('active');
                     $('.en-btn').removeClass('active');
                     $('html').attr('lang', 'fr');
+                    $('title').text('Engagement de confidentialité');
                 } else {
-                    $('.lang-en').fadeIn(300);
-                    $('.lang-fr').fadeOut(300);
+                    $('.lang-en').show();
+                    $('.lang-fr').hide();
                     $('.en-btn').addClass('active');
                     $('.fr-btn').removeClass('active');
                     $('html').attr('lang', 'en');
+                    $('title').text('Privacy Policy');
                 }
             }
 
