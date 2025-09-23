@@ -180,23 +180,23 @@
         }
 
         .download-btn {
-            display: inline-block;
-            background: #007AFF;
-            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             text-decoration: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-weight: bold;
+            padding: 15px;
             transition: all 0.3s ease;
-            text-align: center;
             width: 100%;
-            box-shadow: 0 4px 15px rgba(0, 122, 255, 0.3);
         }
 
         .download-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 122, 255, 0.5);
-            background: #0051D5;
+            transform: translateY(-3px);
+            filter: brightness(1.1);
+        }
+
+        .download-btn img {
+            height: 50px;
+            width: auto;
         }
 
         .support-notice {
@@ -244,6 +244,62 @@
             display: none;
         }
 
+        .export-mode {
+            background: #2c3e50;
+            padding: 30px;
+            border-radius: 10px;
+        }
+
+        .export-code {
+            background: #1a1a1a;
+            color: #f0f0f0;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', monospace;
+            font-size: 12px;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            overflow-x: auto;
+            margin-top: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .export-header {
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .export-header h2 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        .copy-button {
+            background: #007AFF;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+        }
+
+        .copy-button:hover {
+            background: #0051D5;
+            transform: translateY(-2px);
+        }
+
+        .copy-button.copied {
+            background: #28a745;
+        }
+
         @media (max-width: 768px) {
             h1 {
                 font-size: 2em;
@@ -275,7 +331,7 @@
         </header>
 
         <div class="apps-grid">
-            <div class="app-card">
+            <div class="app-card" data-app="OldTaskManager">
                 <div class="app-header">
                     <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/1d/43/c7/1d43c7f0-b2c9-d188-f29d-e86abcf7be40/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg" alt="OldTaskManager" class="app-icon">
                     <div class="app-info">
@@ -322,12 +378,11 @@
                 </div>
 
                 <a href="https://apps.apple.com/fr/app/oldtaskmanager/id6752569914" target="_blank" class="download-btn">
-                    <span class="lang-fr">Télécharger sur l'App Store</span>
-                    <span class="lang-en">Download on App Store</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Download_on_the_App_Store_Badge_FRCA_RGB_blk.svg" alt="Download on App Store" style="width: 100%; max-width: 200px;">
                 </a>
             </div>
 
-            <div class="app-card">
+            <div class="app-card" data-app="R3SPIR3">
                 <div class="app-header">
                     <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7e/bc/8c/7ebc8c8f-311d-3945-be43-cae8d6c7f5dc/AppIcon-0-0-1x_U007epad-0-1-85-220.png/460x0w.webp" alt="R3SPIR3" class="app-icon">
                     <div class="app-info">
@@ -378,8 +433,7 @@
                 </div>
 
                 <a href="https://apps.apple.com/fr/app/r3spir3/id6752522814" target="_blank" class="download-btn">
-                    <span class="lang-fr">Télécharger sur l'App Store</span>
-                    <span class="lang-en">Download on App Store</span>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Download_on_the_App_Store_Badge_FRCA_RGB_blk.svg" alt="Download on App Store" style="width: 100%; max-width: 200px;">
                 </a>
             </div>
         </div>
@@ -421,13 +475,299 @@
 
     <script>
         $(document).ready(function() {
-            // Animation des cartes au chargement
-            $('.app-card').each(function(index) {
-                var card = $(this);
-                setTimeout(function() {
-                    card.addClass('visible');
-                }, 200 * index);
-            });
+            // Récupération des paramètres URL
+            var urlParams = new URLSearchParams(window.location.search);
+            var appParam = urlParams.get('app');
+            var exportParam = urlParams.get('export');
+
+            // Filtrage des applications
+            if (appParam) {
+                var appNames = appParam.split(',').map(function(name) {
+                    return name.trim().toLowerCase();
+                });
+
+                $('.app-card').hide();
+
+                appNames.forEach(function(appName) {
+                    $('.app-card').each(function() {
+                        var cardAppName = $(this).data('app').toLowerCase();
+                        if (cardAppName === appName) {
+                            $(this).show();
+                        }
+                    });
+                });
+
+                // Si mode export activé
+                if (exportParam === '1') {
+                    showExportMode();
+                }
+            }
+
+            // Fonction pour afficher le mode export
+            function showExportMode() {
+                var visibleCards = $('.app-card:visible');
+                var exportHtml = '';
+
+                // CSS autonome et simplifié pour Divi/WordPress avec !important
+                var cssCode = `<style>
+.app-export-container {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+    padding: 20px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-card {
+    background: white !important;
+    border-radius: 20px !important;
+    padding: 30px !important;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2) !important;
+    transition: all 0.3s ease !important;
+    margin-bottom: 30px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
+}
+
+.app-export-card:hover {
+    transform: translateY(-10px) !important;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3) !important;
+}
+
+.app-export-header {
+    display: flex !important;
+    align-items: center !important;
+    margin-bottom: 20px !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-icon {
+    width: 80px !important;
+    height: 80px !important;
+    border-radius: 20px !important;
+    margin-right: 20px !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-info {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-info h2 {
+    color: #333 !important;
+    margin: 0 0 5px 0 !important;
+    font-size: 1.5em !important;
+    font-weight: bold !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-developer {
+    color: #666 !important;
+    font-size: 0.9em !important;
+    margin: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-description {
+    color: #555 !important;
+    line-height: 1.6 !important;
+    margin-bottom: 20px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-description p {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-features {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
+    border-radius: 15px !important;
+    padding: 15px !important;
+    margin-bottom: 20px !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-features h3 {
+    color: #444 !important;
+    margin: 0 0 10px 0 !important;
+    font-size: 1.1em !important;
+    font-weight: bold !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-features ul {
+    list-style: none !important;
+    padding-left: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-features li {
+    padding: 5px 0 !important;
+    color: #555 !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    list-style-type: none !important;
+}
+
+.app-export-features li:before {
+    content: "✓ " !important;
+    color: #007AFF !important;
+    font-weight: bold !important;
+    margin-right: 5px !important;
+    display: inline !important;
+}
+
+.app-export-download {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    padding: 15px !important;
+    transition: all 0.3s ease !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+.app-export-download:hover {
+    transform: translateY(-3px) !important;
+}
+
+.app-export-download img {
+    height: 50px !important;
+    width: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Reset Divi specific styles */
+.et_pb_module .app-export-container *,
+.et_pb_code_inner .app-export-container * {
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+@media (max-width: 768px) {
+    .app-export-header {
+        flex-direction: column !important;
+        text-align: center !important;
+    }
+
+    .app-export-icon {
+        margin-right: 0 !important;
+        margin-bottom: 15px !important;
+    }
+}
+</style>`;
+
+                // Construire le HTML d'export simplifié
+                exportHtml = cssCode + '\n\n';
+                exportHtml += '<div class="app-export-container">\n';
+
+                visibleCards.each(function() {
+                    var card = $(this);
+                    var appName = card.find('h2').text();
+                    var developer = card.find('.app-developer .lang-fr').text();
+                    var description = card.find('.app-description .lang-fr').text();
+                    var iconSrc = card.find('.app-icon').attr('src');
+                    var appStoreLink = card.find('.download-btn').attr('href');
+
+                    exportHtml += '    <div class="app-export-card">\n';
+                    exportHtml += '        <div class="app-export-header">\n';
+                    exportHtml += '            <img src="' + iconSrc + '" alt="' + appName + '" class="app-export-icon">\n';
+                    exportHtml += '            <div class="app-export-info">\n';
+                    exportHtml += '                <h2>' + appName + '</h2>\n';
+                    exportHtml += '                <p class="app-export-developer">' + developer + '</p>\n';
+                    exportHtml += '            </div>\n';
+                    exportHtml += '        </div>\n';
+                    exportHtml += '        <div class="app-export-description">\n';
+                    exportHtml += '            <p>' + description + '</p>\n';
+                    exportHtml += '        </div>\n';
+                    exportHtml += '        <div class="app-export-features">\n';
+                    exportHtml += '            <h3>Caractéristiques</h3>\n';
+                    exportHtml += '            <ul>\n';
+
+                    card.find('.app-features li').each(function() {
+                        var feature = $(this).find('.lang-fr').text();
+                        exportHtml += '                <li>' + feature + '</li>\n';
+                    });
+
+                    exportHtml += '            </ul>\n';
+                    exportHtml += '        </div>\n';
+                    exportHtml += '        <a href="' + appStoreLink + '" target="_blank" class="app-export-download">\n';
+                    exportHtml += '            <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Download_on_the_App_Store_Badge_FRCA_RGB_blk.svg" alt="Download on App Store">\n';
+                    exportHtml += '        </a>\n';
+                    exportHtml += '    </div>\n';
+                });
+
+                exportHtml += '</div>';
+
+                // Créer l'interface d'export
+                var exportContainer = $('<div class="export-mode">');
+                var exportHeader = $('<div class="export-header">');
+                exportHeader.append('<h2>Mode Export HTML/CSS</h2>');
+                exportHeader.append('<p>Copiez le code ci-dessous pour intégrer les applications sélectionnées</p>');
+
+                var copyButton = $('<button class="copy-button">Copier le code</button>');
+                var codeBlock = $('<pre class="export-code">').text(exportHtml);
+
+                copyButton.click(function() {
+                    var $temp = $('<textarea>');
+                    $('body').append($temp);
+                    $temp.val(exportHtml).select();
+                    document.execCommand('copy');
+                    $temp.remove();
+
+                    $(this).addClass('copied').text('Copié !');
+                    setTimeout(function() {
+                        copyButton.removeClass('copied').text('Copier le code');
+                    }, 2000);
+                });
+
+                exportContainer.append(exportHeader);
+                exportContainer.append(copyButton);
+                exportContainer.append(codeBlock);
+
+                $('.container').empty().append(exportContainer);
+            }
+
+            // Animation des cartes au chargement (seulement si pas en mode export)
+            if (exportParam !== '1') {
+                $('.app-card:visible').each(function(index) {
+                    var card = $(this);
+                    setTimeout(function() {
+                        card.addClass('visible');
+                    }, 200 * index);
+                });
+            }
 
             // Changement de langue
             $('.fr-btn').click(function() {

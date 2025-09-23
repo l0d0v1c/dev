@@ -6,6 +6,25 @@ Bienvenue sur le site de présentation de nos applications iOS.
 
 Visitez notre site : [https://l0d0v1c.github.io/dev/](https://l0d0v1c.github.io/dev/)
 
+### 🔗 Paramètres URL disponibles
+
+Vous pouvez utiliser des paramètres URL pour filtrer et exporter les applications :
+
+#### Filtrage par application
+- **Une seule application** : `?app=OldTaskManager` ou `?app=R3SPIR3`
+- **Plusieurs applications** : `?app=OldTaskManager,R3SPIR3` (séparer par des virgules)
+
+#### Mode export HTML/CSS
+- **Export d'une application** : `?app=OldTaskManager&export=1`
+- **Export de plusieurs applications** : `?app=OldTaskManager,R3SPIR3&export=1`
+
+Le mode export (`export=1`) affiche le code HTML/CSS complet des applications sélectionnées avec un bouton pour copier facilement le code et l'intégrer dans d'autres sites web.
+
+#### Exemples d'utilisation
+- Afficher uniquement OldTaskManager : [https://l0d0v1c.github.io/dev/?app=OldTaskManager](https://l0d0v1c.github.io/dev/?app=OldTaskManager)
+- Exporter le code HTML de R3SPIR3 : [https://l0d0v1c.github.io/dev/?app=R3SPIR3&export=1](https://l0d0v1c.github.io/dev/?app=R3SPIR3&export=1)
+- Exporter les deux applications : [https://l0d0v1c.github.io/dev/?app=OldTaskManager,R3SPIR3&export=1](https://l0d0v1c.github.io/dev/?app=OldTaskManager,R3SPIR3&export=1)
+
 ## 📱 Applications disponibles
 
 ### OldTaskManager
