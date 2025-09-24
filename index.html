@@ -3,6 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- OpenGraph metadata for social media -->
+    <meta property="og:title" content="Nos Applications - Our Applications">
+    <meta property="og:description" content="Découvrez nos applications iOS innovantes : OldTaskManager, R3SPIR3 et ATGC. Applications de productivité, santé et science.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="">
+    <meta property="og:image" content="">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="1O1IN Apps">
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nos Applications - Our Applications">
+    <meta name="twitter:description" content="Découvrez nos applications iOS innovantes : OldTaskManager, R3SPIR3 et ATGC. Applications de productivité, santé et science.">
+    <meta name="twitter:image" content="">
+
+    <!-- LinkedIn specific -->
+    <meta name="author" content="1O1IN">
+
+    <!-- Standard metadata -->
+    <meta name="description" content="Découvrez nos applications iOS innovantes : OldTaskManager pour la gestion de tâches, R3SPIR3 pour la respiration, ATGC pour l'analyse génétique.">
+    <meta name="keywords" content="iOS, applications, OldTaskManager, R3SPIR3, ATGC, productivité, santé, génétique">
+
     <title>Nos Applications - Our Applications</title>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
@@ -531,6 +556,101 @@
             var appParam = urlParams.get('app');
             var exportParam = urlParams.get('export');
 
+            // Configuration des métadonnées OpenGraph pour les applications
+            var appMetadata = {
+                'oldtaskmanager': {
+                    title: 'OldTaskManager - Gestion de tâches simplifiée',
+                    titleEn: 'OldTaskManager - Simplified Task Management',
+                    description: 'Application capture l\'essence du système de tâches Palm Pilot : priorités claires, catégories simples, et zéro superflu.',
+                    descriptionEn: 'App captures the essence of what made the Palm Pilot task system so effective: clear priorities, simple categories, and zero fluff.',
+                    image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/1d/43/c7/1d43c7f0-b2c9-d188-f29d-e86abcf7be40/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg',
+                    url: 'https://apps.apple.com/fr/app/oldtaskmanager/id6752569914'
+                },
+                'r3spir3': {
+                    title: 'R3SPIR3 - Coach de respiration personnel',
+                    titleEn: 'R3SPIR3 - Personal Breathing Coach',
+                    description: 'Votre coach de respiration personnel avec des exercices scientifiquement prouvés pour réduire le stress et améliorer la concentration.',
+                    descriptionEn: 'Your personal breathing coach with scientifically proven breathing exercises to reduce stress, improve concentration, and find inner calm.',
+                    image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7e/bc/8c/7ebc8c8f-311d-3945-be43-cae8d6c7f5dc/AppIcon-0-0-1x_U007epad-0-1-85-220.png/460x0w.webp',
+                    url: 'https://apps.apple.com/fr/app/r3spir3/id6752522814'
+                },
+                'atgc': {
+                    title: 'ATGC - Explorateur de fichiers VCF',
+                    titleEn: 'ATGC - VCF File Explorer',
+                    description: 'Explorateur de fichiers VCF pour l\'analyse génétique. Visualisez et analysez vos données de séquençage génomique avec une interface intuitive.',
+                    descriptionEn: 'VCF file explorer for genetic analysis. Visualize and analyze your genomic sequencing data with an intuitive interface and advanced analysis tools.',
+                    image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a1/7c/f1/a17cf19e-efb5-b910-bcb9-08bff90a7e6b/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/460x0w.webp',
+                    url: 'https://apps.apple.com/fr/app/atgc-vcf-explorer/id6752802061'
+                }
+            };
+
+            // Mise à jour des métadonnées OpenGraph si un paramètre app est spécifié
+            function updateOpenGraphMetadata() {
+                if (appParam) {
+                    var appNames = appParam.split(',').map(function(name) {
+                        return name.trim().toLowerCase();
+                    });
+
+                    // Si une seule app est spécifiée, utiliser ses métadonnées spécifiques
+                    if (appNames.length === 1) {
+                        var appData = appMetadata[appNames[0]];
+                        if (appData) {
+                            // Détecter la langue courante
+                            var currentLang = $('html').attr('lang') || 'fr';
+                            var isEnglish = currentLang === 'en';
+
+                            // Mettre à jour le titre
+                            var title = isEnglish ? appData.titleEn : appData.title;
+                            var description = isEnglish ? appData.descriptionEn : appData.description;
+
+                            $('title').text(title);
+                            $('meta[property="og:title"]').attr('content', title);
+                            $('meta[name="twitter:title"]').attr('content', title);
+
+                            // Mettre à jour la description
+                            $('meta[property="og:description"]').attr('content', description);
+                            $('meta[name="twitter:description"]').attr('content', description);
+                            $('meta[name="description"]').attr('content', description);
+
+                            // Mettre à jour l'image
+                            $('meta[property="og:image"]').attr('content', appData.image);
+                            $('meta[name="twitter:image"]').attr('content', appData.image);
+
+                            // Mettre à jour l'URL
+                            var currentUrl = window.location.href;
+                            $('meta[property="og:url"]').attr('content', currentUrl);
+
+                            // Mettre à jour la locale
+                            var locale = isEnglish ? 'en_US' : 'fr_FR';
+                            $('meta[property="og:locale"]').attr('content', locale);
+                        }
+                    } else {
+                        // Plusieurs apps : métadonnées génériques mais personnalisées
+                        var appTitles = appNames.map(function(name) {
+                            var appData = appMetadata[name];
+                            return appData ? appData.title.split(' - ')[0] : name.toUpperCase();
+                        }).join(', ');
+
+                        var title = 'Applications iOS : ' + appTitles;
+                        var description = 'Découvrez nos applications iOS sélectionnées : ' + appTitles + '. Solutions innovantes pour la productivité, la santé et la science.';
+
+                        $('title').text(title);
+                        $('meta[property="og:title"]').attr('content', title);
+                        $('meta[name="twitter:title"]').attr('content', title);
+                        $('meta[property="og:description"]').attr('content', description);
+                        $('meta[name="twitter:description"]').attr('content', description);
+                        $('meta[name="description"]').attr('content', description);
+
+                        // URL courante
+                        var currentUrl = window.location.href;
+                        $('meta[property="og:url"]').attr('content', currentUrl);
+                    }
+                }
+            }
+
+            // Appeler la fonction de mise à jour des métadonnées
+            updateOpenGraphMetadata();
+
             // Filtrage des applications
             if (appParam) {
                 var appNames = appParam.split(',').map(function(name) {
@@ -836,15 +956,22 @@
                     $('.fr-btn').addClass('active');
                     $('.en-btn').removeClass('active');
                     $('html').attr('lang', 'fr');
-                    $('title').text('Nos Applications');
+                    if (!appParam) {
+                        $('title').text('Nos Applications');
+                    }
                 } else {
                     $('.lang-en').show();
                     $('.lang-fr').hide();
                     $('.en-btn').addClass('active');
                     $('.fr-btn').removeClass('active');
                     $('html').attr('lang', 'en');
-                    $('title').text('Our Applications');
+                    if (!appParam) {
+                        $('title').text('Our Applications');
+                    }
                 }
+
+                // Mettre à jour les métadonnées OpenGraph après changement de langue
+                updateOpenGraphMetadata();
             }
 
             // Animation au survol des cartes
