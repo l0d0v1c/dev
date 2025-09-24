@@ -4,72 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Métadonnées OpenGraph par défaut - seront remplacées par le script si nécessaire -->
+    <meta property="og:title" content="Nos Applications - Our Applications" id="og-title">
+    <meta property="og:description" content="Découvrez nos applications iOS innovantes : OldTaskManager, R3SPIR3 et ATGC. Applications de productivité, santé et science." id="og-description">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="" id="og-url">
+    <meta property="og:image" content="" id="og-image">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="1O1IN Apps">
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Nos Applications - Our Applications" id="twitter-title">
+    <meta name="twitter:description" content="Découvrez nos applications iOS innovantes : OldTaskManager, R3SPIR3 et ATGC. Applications de productivité, santé et science." id="twitter-description">
+    <meta name="twitter:image" content="" id="twitter-image">
+
+    <!-- LinkedIn specific -->
+    <meta name="author" content="1O1IN">
+
+    <!-- Standard metadata -->
+    <meta name="description" content="Découvrez nos applications iOS innovantes : OldTaskManager pour la gestion de tâches, R3SPIR3 pour la respiration, ATGC pour l'analyse génétique." id="meta-description">
+    <meta name="keywords" content="iOS, applications, OldTaskManager, R3SPIR3, ATGC, productivité, santé, génétique">
+
     <script>
         // Script qui s'exécute immédiatement pour mettre à jour les métadonnées
-        var urlParams = new URLSearchParams(window.location.search);
-        var appParam = urlParams.get('app');
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var appParam = urlParams.get('app');
 
-        var appMetadata = {
-            'oldtaskmanager': {
-                title: 'OldTaskManager',
-                description: 'Application capture l\'essence du système de tâches Palm Pilot : priorités claires, catégories simples, et zéro superflu.',
-                image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/1d/43/c7/1d43c7f0-b2c9-d188-f29d-e86abcf7be40/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg'
-            },
-            'r3spir3': {
-                title: 'R3SPIR3',
-                description: 'Votre coach de respiration personnel avec des exercices scientifiquement prouvés pour réduire le stress et améliorer la concentration.',
-                image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7e/bc/8c/7ebc8c8f-311d-3945-be43-cae8d6c7f5dc/AppIcon-0-0-1x_U007epad-0-1-85-220.png/460x0w.webp'
-            },
-            'atgc': {
-                title: 'ATGC',
-                description: 'Explorateur de fichiers VCF pour l\'analyse génétique. Visualisez et analysez vos données de séquençage génomique avec une interface intuitive.',
-                image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a1/7c/f1/a17cf19e-efb5-b910-bcb9-08bff90a7e6b/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/460x0w.webp'
+            var appMetadata = {
+                'oldtaskmanager': {
+                    title: 'OldTaskManager',
+                    description: 'Application capture l\'essence du système de tâches Palm Pilot : priorités claires, catégories simples, et zéro superflu.',
+                    image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/1d/43/c7/1d43c7f0-b2c9-d188-f29d-e86abcf7be40/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg'
+                },
+                'r3spir3': {
+                    title: 'R3SPIR3',
+                    description: 'Votre coach de respiration personnel avec des exercices scientifiquement prouvés pour réduire le stress et améliorer la concentration.',
+                    image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/7e/bc/8c/7ebc8c8f-311d-3945-be43-cae8d6c7f5dc/AppIcon-0-0-1x_U007epad-0-1-85-220.png/460x0w.webp'
+                },
+                'atgc': {
+                    title: 'ATGC',
+                    description: 'Explorateur de fichiers VCF pour l\'analyse génétique. Visualisez et analysez vos données de séquençage génomique avec une interface intuitive.',
+                    image: 'https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/a1/7c/f1/a17cf19e-efb5-b910-bcb9-08bff90a7e6b/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/460x0w.webp'
+                }
+            };
+
+            if (appParam) {
+                var appName = appParam.trim().toLowerCase();
+                var appData = appMetadata[appName];
+
+                if (appData) {
+                    // Mettre à jour le titre de la page
+                    document.title = appData.title;
+
+                    // Mettre à jour les métadonnées OpenGraph
+                    document.getElementById('og-title').setAttribute('content', appData.title);
+                    document.getElementById('og-description').setAttribute('content', appData.description);
+                    document.getElementById('og-image').setAttribute('content', appData.image);
+                    document.getElementById('og-url').setAttribute('content', window.location.href);
+
+                    // Mettre à jour Twitter Card
+                    document.getElementById('twitter-title').setAttribute('content', appData.title);
+                    document.getElementById('twitter-description').setAttribute('content', appData.description);
+                    document.getElementById('twitter-image').setAttribute('content', appData.image);
+
+                    // Mettre à jour description standard
+                    document.getElementById('meta-description').setAttribute('content', appData.description);
+                }
+            } else {
+                // Pas de paramètre app, mettre l'URL actuelle
+                document.getElementById('og-url').setAttribute('content', window.location.href);
             }
-        };
-
-        // Définir les valeurs par défaut ou spécifiques à l'application
-        var metaTitle = "Nos Applications - Our Applications";
-        var metaDescription = "Découvrez nos applications iOS innovantes : OldTaskManager, R3SPIR3 et ATGC. Applications de productivité, santé et science.";
-        var metaImage = "";
-
-        if (appParam) {
-            var appName = appParam.trim().toLowerCase();
-            var appData = appMetadata[appName];
-            if (appData) {
-                metaTitle = appData.title;
-                metaDescription = appData.description;
-                metaImage = appData.image;
-            }
-        }
-
-        // Écrire directement les métadonnées dans le HTML
-        document.write('<meta property="og:title" content="' + metaTitle + '">');
-        document.write('<meta property="og:description" content="' + metaDescription + '">');
-        document.write('<meta property="og:type" content="website">');
-        document.write('<meta property="og:url" content="' + window.location.href + '">');
-        document.write('<meta property="og:image" content="' + metaImage + '">');
-        document.write('<meta property="og:image:width" content="1200">');
-        document.write('<meta property="og:image:height" content="630">');
-        document.write('<meta property="og:locale" content="fr_FR">');
-        document.write('<meta property="og:site_name" content="1O1IN Apps">');
-
-        document.write('<meta name="twitter:card" content="summary_large_image">');
-        document.write('<meta name="twitter:title" content="' + metaTitle + '">');
-        document.write('<meta name="twitter:description" content="' + metaDescription + '">');
-        document.write('<meta name="twitter:image" content="' + metaImage + '">');
-
-        document.write('<meta name="author" content="1O1IN">');
-        document.write('<meta name="description" content="' + metaDescription + '">');
-        document.write('<meta name="keywords" content="iOS, applications, OldTaskManager, R3SPIR3, ATGC, productivité, santé, génétique">');
-    </script>
-
-    <script>
-        // Mettre à jour le titre de la page
-        if (appParam && appMetadata[appParam.trim().toLowerCase()]) {
-            document.title = appMetadata[appParam.trim().toLowerCase()].title;
-        } else {
-            document.title = "Nos Applications - Our Applications";
-        }
+        })();
     </script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <style>
