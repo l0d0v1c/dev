@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MonAge - Détection d'âge par IA</title>
+
+    <!-- Métadonnées OpenGraph -->
+    <meta property="og:title" content="MonAge - Détection d'âge par IA">
+    <meta property="og:description" content="Cette application tente de déterminer l'âge à partir d'une photo en utilisant une version du modèle CLIP (Contrastive Language-Image Pre-Training) d'OpenAI.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://l0d0v1c.github.io/dev/monage.html">
+    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/89/83/af/8983af26-0d47-5fc6-6db2-9f57e2b641fe/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/1200x630wa.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="1O1IN Apps">
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MonAge - Détection d'âge par IA">
+    <meta name="twitter:description" content="Cette application tente de déterminer l'âge à partir d'une photo en utilisant une version du modèle CLIP (Contrastive Language-Image Pre-Training) d'OpenAI.">
+    <meta name="twitter:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/89/83/af/8983af26-0d47-5fc6-6db2-9f57e2b641fe/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/1200x630wa.png">
+
+    <!-- LinkedIn specific -->
+    <meta name="author" content="1O1IN">
+
+    <!-- Standard metadata -->
+    <meta name="description" content="MonAge - Application iOS qui détermine l'âge à partir d'une photo en utilisant le modèle CLIP d'OpenAI. Analyse rapide et précise par intelligence artificielle.">
+    <meta name="keywords" content="iOS, application, MonAge, détection âge, IA, intelligence artificielle, CLIP, OpenAI, reconnaissance faciale">
+
+    <!-- Apple App Store -->
+    <meta name="apple-itunes-app" content="app-id=6753104412">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 35px;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            display: block;
+        }
+
+        h1 {
+            color: #333;
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .developer {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+        }
+
+        .description {
+            color: #555;
+            font-size: 1.1em;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .features {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 40px;
+            text-align: left;
+        }
+
+        .features h2 {
+            color: #444;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        .features ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .features li {
+            padding: 10px 0;
+            color: #555;
+            font-size: 1.1em;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.2em;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin: 20px 0;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .download-btn img {
+            height: 60px;
+            width: auto;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+            border-radius: 10px;
+        }
+
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        footer {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #eee;
+            color: #666;
+        }
+
+        footer a {
+            color: #667eea;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .app-icon {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/89/83/af/8983af26-0d47-5fc6-6db2-9f57e2b641fe/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/1200x630wa.png" alt="MonAge" class="app-icon">
+
+        <h1>MonAge</h1>
+        <p class="developer">Par 1O1IN</p>
+
+        <div class="description">
+            <p>
+                <strong>MonAge</strong> est une application iOS innovante qui utilise l'intelligence artificielle pour estimer l'âge d'une personne à partir d'une simple photo. Propulsée par une version du modèle CLIP (Contrastive Language-Image Pre-Training) d'OpenAI, l'application offre une analyse rapide et précise.
+            </p>
+        </div>
+
+        <div class="features">
+            <h2>Caractéristiques principales</h2>
+            <ul>
+                <li>Détection d'âge par intelligence artificielle</li>
+                <li>Utilise le modèle CLIP d'OpenAI</li>
+                <li>Analyse rapide et précise</li>
+                <li>Interface simple et intuitive</li>
+                <li>Respect de votre vie privée</li>
+                <li>Aucun abonnement requis</li>
+            </ul>
+        </div>
+
+        <a href="https://apps.apple.com/fr/app/monage/id6753104412" target="_blank" class="download-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Download_on_the_App_Store_Badge_FRCA_RGB_blk.svg" alt="Télécharger sur l'App Store">
+        </a>
+
+        <div class="info-box">
+            <h3>À propos de la technologie</h3>
+            <p>
+                MonAge utilise une version adaptée du modèle CLIP (Contrastive Language-Image Pre-Training) développé par OpenAI. Cette technologie de pointe permet une analyse visuelle avancée pour estimer l'âge à partir des caractéristiques faciales détectées dans les photos.
+            </p>
+        </div>
+
+        <footer>
+            <p>© 2024 1O1IN - Tous droits réservés</p>
+            <p><a href="index.html">← Retour à toutes les applications</a></p>
+            <p><a href="privacy.html">Politique de confidentialité</a></p>
+        </footer>
+    </div>
+</body>
+</html>
