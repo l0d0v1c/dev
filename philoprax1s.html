@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhiloPrax1s - Gestion d'Objectifs Philosophiques</title>
+
+    <!-- Métadonnées OpenGraph -->
+    <meta property="og:title" content="PhiloPrax1s - Gestion d'Objectifs Philosophiques">
+    <meta property="og:description" content="Application iOS/macOS conçue pour aider les utilisateurs à définir, suivre et atteindre leurs objectifs personnels en s'appuyant sur des systèmes de pensée philosophiques structurés. 5 catégories fondamentales : Corps, Esprit, Réseau, Ressources, Attitude.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://l0d0v1c.github.io/dev/philoprax1s.html">
+    <meta property="og:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/27/cb/04/27cb04c0-cafb-7fe5-39cb-ae033eed179c/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:locale:alternate" content="en_US">
+    <meta property="og:site_name" content="1O1IN Apps">
+
+    <!-- Twitter Card metadata -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PhiloPrax1s - Gestion d'Objectifs Philosophiques">
+    <meta name="twitter:description" content="Application iOS/macOS conçue pour aider les utilisateurs à définir, suivre et atteindre leurs objectifs personnels en s'appuyant sur des systèmes de pensée philosophiques structurés.">
+    <meta name="twitter:image" content="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/27/cb/04/27cb04c0-cafb-7fe5-39cb-ae033eed179c/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg">
+    <meta name="twitter:site" content="@1O1IN">
+    <meta name="twitter:creator" content="@1O1IN">
+
+    <!-- LinkedIn specific -->
+    <meta name="author" content="1O1IN">
+
+    <!-- Standard metadata -->
+    <meta name="description" content="PhiloPrax1s est une application iOS/macOS conçue pour aider les utilisateurs à définir, suivre et atteindre leurs objectifs personnels en s'appuyant sur des systèmes de pensée philosophiques structurés. Gestion d'objectifs mensuels, 5 catégories fondamentales, synchronisation iCloud.">
+    <meta name="keywords" content="PhiloPrax1s, iOS, macOS, objectifs, philosophie, productivité, développement personnel, goals, iCloud, 1O1IN">
+
+    <!-- App Store metadata -->
+    <meta name="apple-itunes-app" content="app-id=6753753152">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 30px;
+            padding: 50px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .app-icon {
+            width: 150px;
+            height: 150px;
+            border-radius: 35px;
+            margin: 0 auto 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h1 {
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .tagline {
+            color: #666;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .features {
+            text-align: left;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .features h2 {
+            color: #333;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .features ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .features li {
+            padding: 10px 0;
+            color: #555;
+            font-size: 1em;
+        }
+
+        .features li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            margin-top: 30px;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+        }
+
+        .download-btn img {
+            height: 60px;
+            width: auto;
+        }
+
+        .developer {
+            margin-top: 30px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .redirect-notice {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e7f3ff;
+            border-radius: 10px;
+            color: #0066cc;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .app-icon {
+                width: 120px;
+                height: 120px;
+            }
+
+            .tagline {
+                font-size: 1em;
+            }
+        }
+    </style>
+
+    <!-- Auto-redirect script (optional) -->
+    <script>
+        // Uncomment the following lines to enable auto-redirect after 3 seconds
+        // setTimeout(function() {
+        //     window.location.href = 'https://apps.apple.com/fr/app/philoprax1s/id6753753152';
+        // }, 3000);
+    </script>
+</head>
+<body>
+    <div class="container">
+        <img src="https://is1-ssl.mzstatic.com/image/thumb/Purple211/v4/27/cb/04/27cb04c0-cafb-7fe5-39cb-ae033eed179c/AppIcon-0-0-1x_U007emarketing-0-8-0-85-220.png/512x512bb.jpg" alt="PhiloPrax1s Icon" class="app-icon">
+
+        <h1>PhiloPrax1s</h1>
+
+        <p class="tagline">
+            Application iOS/macOS conçue pour aider les utilisateurs à définir, suivre et atteindre leurs objectifs personnels en s'appuyant sur des systèmes de pensée philosophiques structurés.
+        </p>
+
+        <div class="features">
+            <h2>Caractéristiques principales</h2>
+            <ul>
+                <li>Gestion d'objectifs mensuels</li>
+                <li>Systèmes de pensée philosophiques</li>
+                <li>5 catégories fondamentales (Corps, Esprit, Réseau, Ressources, Attitude)</li>
+                <li>Suivi et visualisation en temps réel</li>
+                <li>Réflexions et rapports mensuels</li>
+                <li>Synchronisation iCloud</li>
+            </ul>
+        </div>
+
+        <a href="https://apps.apple.com/fr/app/philoprax1s/id6753753152" target="_blank" class="download-btn">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/4/40/Download_on_the_App_Store_Badge_FRCA_RGB_blk.svg" alt="Télécharger sur l'App Store">
+        </a>
+
+        <p class="developer">Par 1O1IN</p>
+
+        <div class="redirect-notice">
+            💡 Cliquez sur le bouton ci-dessus pour télécharger PhiloPrax1s depuis l'App Store
+        </div>
+    </div>
+
+    <script>
+        // Animation on scroll
+        window.addEventListener('load', function() {
+            document.querySelector('.container').style.opacity = '1';
+        });
+
+        // Track download button clicks (optional analytics)
+        document.querySelector('.download-btn').addEventListener('click', function() {
+            console.log('Download button clicked for PhiloPrax1s');
+            // Add analytics tracking here if needed
+        });
+    </script>
+</body>
+</html>
